@@ -8,7 +8,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['category', 'images', 'colors.colorImages'])->get();
+        $products = Product::with(['category', 'images'])->get();
         return response()->json($products);
     }
 
@@ -22,16 +22,27 @@ class ProductController extends Controller
             'discount' => 'nullable|numeric|min:0|max:100',
             'discount_expires_at' => 'nullable|date',
             'category_id' => 'required|exists:categories,id',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $product = Product::create($validated);
-        return response()->json($product, 201);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                $path = $imageFile->store('product-images', 'public');
+
+                $product->images()->create([
+                    'image_path' => $path
+                ]);
+            }
+        }
+
+        return response()->json($product->load('images'), 201);
     }
 
     public function show(Product $product)
     {
-        $product->load(['category', 'images', 'colors.colorImages']);
-        return response()->json($product);
+        return response()->json($product->load(['category', 'images']));
     }
 
     public function update(Request $request, Product $product)
@@ -43,10 +54,11 @@ class ProductController extends Controller
             'quantity' => 'required|integer|min:0',
             'discount' => 'nullable|numeric|min:0|max:100',
             'discount_expires_at' => 'nullable|date',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:categories,id'
         ]);
 
         $product->update($validated);
+
         return response()->json($product);
     }
 
