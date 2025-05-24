@@ -21,22 +21,13 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-// Public Routes
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
-// Protected Routes
-Route::middleware('auth:sanctum')->group(function () {
-    // Auth Routes
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
-
-    // Category Routes
-    Route::apiResource('categories', CategoryController::class);
-
-    // Product Routes
+// Product Routes
     Route::apiResource('products', ProductController::class);
 
+// Category Routes
+    Route::apiResource('categories', CategoryController::class);
+
+    
     // Product Image Routes
     Route::apiResource('product-images', ProductImageController::class);
 
@@ -46,6 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Color Image Routes
     Route::apiResource('color-images', ColorImageController::class);
 
-    // Order Routes
-    Route::apiResource('orders', OrderController::class);
-}); 
+
+    Route::get('/debug-test', function () {
+        return 'Debug route OK';
+    });
+    
