@@ -62,6 +62,16 @@ class ProductSeeder extends Seeder
                 "category_id" => 2,
                 "images" => ["images/img5.png", "images/img4.png"]
             ],
+            [
+                "name" => "Samsung Galaxy S24",
+                "description" => "Latest Samsung flagship smartphone with advanced AI features",
+                "price" => 899.99,
+                "quantity" => 15,
+                "discount" => 5,
+                "discount_expires_at" => "2024-12-31",
+                "category_id" => 3,
+                "images" => ["images/img1.png", "images/img2.png", "images/img3.png", "images/img4.png"]
+            ],
         ];
 
         foreach ($products as $data) {

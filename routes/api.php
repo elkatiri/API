@@ -23,6 +23,7 @@ use App\Http\Controllers\AuthController;
 
 // Product Routes
     Route::apiResource('products', ProductController::class);
+    Route::post('/products/{product}/images', [ProductImageController::class, 'store']);
 
 // Category Routes
     Route::apiResource('categories', CategoryController::class);

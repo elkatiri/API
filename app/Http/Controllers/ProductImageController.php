@@ -16,20 +16,27 @@ class ProductImageController extends Controller
     {
         $validated = $request->validate([
             'product_id' => 'required|exists:products,id',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
-        // Store the image in the storage/app/public/product-images directory
-        $imagePath = $request->file('image')->store('product-images', 'public');
-
-        // Create the product image record
-        $image = ProductImage::create([
-            'product_id' => $validated['product_id'],
-            'image_path' => $imagePath
-        ]);
-
-        return response()->json($image, 201);
+    
+        $uploaded = [];
+    
+        foreach ($request->file('images') as $file) {
+            $path = $file->store('product-images', 'public');
+    
+            $uploaded[] = ProductImage::create([
+                'product_id' => $validated['product_id'],
+                'image_path' => $path,
+            ]);
+        }
+    
+        return response()->json([
+            'message' => 'All images uploaded!',
+            'images' => $uploaded
+        ], 201);
     }
+    
 
     public function show(ProductImage $productImage)
     {
