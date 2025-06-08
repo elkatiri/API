@@ -11,6 +11,17 @@ class ProductController extends Controller
         $products = Product::with(['category', 'images'])->get();
         return response()->json($products);
     }
+    public function getTopDiscountedProducts()
+    {
+        $products = Product::with(['category', 'images'])
+            ->whereNotNull('discount')
+            ->where('discount', '>', 0)
+            ->orderBy('discount', 'desc')
+            ->take(4)
+            ->get();
+
+        return response()->json($products);
+    }
 
     public function store(Request $request)
     {
@@ -67,4 +78,6 @@ class ProductController extends Controller
         $product->delete();
         return response()->json(null, 204);
     }
+
+
 }
