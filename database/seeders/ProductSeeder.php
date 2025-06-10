@@ -4,12 +4,18 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use App\Models\Image;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
 class ProductSeeder extends Seeder
 {
-    public function run()
+    use WithoutModelEvents;
+
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
         $products = [
             [

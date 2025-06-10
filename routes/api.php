@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
@@ -11,49 +10,42 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MessageController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+// Category Routes
+Route::apiResource('categories', CategoryController::class);
 
 // Product Routes
-    Route::apiResource('products', ProductController::class);
-    Route::post('/products/{product}/images', [ProductImageController::class, 'store']);
-    Route::get('/top-discounted-products', [ProductController::class, 'getTopDiscountedProducts']);
-//Orders
-    Route::apiResource('orders', OrderController::class);
+Route::apiResource('products', ProductController::class);
+Route::post('/products/{product}/images', [ProductImageController::class, 'store']);
+Route::get('/top-discounted-products', [ProductController::class, 'getTopDiscountedProducts']);
 
-    // Category Routes
-    Route::apiResource('categories', CategoryController::class);
+// Product Image Routes
+Route::apiResource('product-images', ProductImageController::class);
 
-    
-    // Product Image Routes
-    Route::apiResource('product-images', ProductImageController::class);
+// Product Color Routes
+Route::apiResource('product-colors', ProductColorController::class);
 
-    // Product Color Routes
-    Route::apiResource('product-colors', ProductColorController::class);
+// Color Image Routes
+Route::apiResource('color-images', ColorImageController::class);
 
-    // Color Image Routes
-    Route::apiResource('color-images', ColorImageController::class);
-    Route::apiResource('users', AuthController::class);
+// Order Routes
+Route::apiResource('orders', OrderController::class);
+Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus']);
 
-    // Message Routes
-    Route::apiResource('messages', MessageController::class);
+// User Routes
+Route::apiResource('users', AuthController::class);
 
-    // Auth Routes
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/logout', [AuthController::class, 'logout']);
-    });
-    Route::get('/user', [AuthController::class, 'index']);
+// Message Routes
+Route::apiResource('messages', MessageController::class);
 
-    Route::get('/debug-test', function () {
-        return 'Debug route OK';
-    });
+// Auth Routes
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
+Route::get('/user', [AuthController::class, 'index']);
+
+// Debug Route
+Route::get('/debug-test', function () {
+    return 'Debug route OK';
+});
