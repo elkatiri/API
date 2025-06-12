@@ -12,61 +12,93 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'id'         => 5,
-                'name'       => 'hanane',
-                'email'      => 'hanane@example.com',
+                
+                'name'       => 'amine',
+                'email'      => 'amine@example.com',
                 'password'   => Hash::make('password'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'id'         => 7,
-                'name'       => 'kamal',
-                'email'      => 'kamal@example.com',
+           
+                'name'       => 'salah',
+                'email'      => 'salah@example.com',
                 'password'   => Hash::make('password'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'id'         => 10,
-                'name'       => 'hajar',
-                'email'      => 'hajar@example.com',
+              
+                'name'       => 'mryem',
+                'email'      => 'mryem@example.com',
                 'password'   => Hash::make('password'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
              [
-                'id'         => 8,
-                'name'       => 'nassima',
-                'email'      => 'nassima@example.com',
+            
+                'name'       => 'asma',
+                'email'      => 'asma@example.com',
                 'password'   => Hash::make('password'),
                 'created_at' => now(),
                 'updated_at' => now(),
              ],
               [
-                'id'         => 15,
-                'name'       => 'siham',
-                'email'      => 'siham@example.com',
+             
+                'name'       => 'fatima',
+                'email'      => 'fatima@example.com',
                 'password'   => Hash::make('password'),
                 'created_at' => now(),
                 'updated_at' => now(),
               ],
                [
-                'id'         => 20,
-                'name'       => 'mohamed',
-                'email'      => 'mohamed@example.com',
+              
+                'name'       => 'ahmed',
+                'email'      => 'ahmed@example.com',
                 'password'   => Hash::make('password'),
                 'created_at' => now(),
                 'updated_at' => now(),
                ],
                 [
-                'id'         => 19,
-                'name'       => 'rania',
-                'email'      => 'rania@example.com',
+               
+                'name'       => 'youssef',
+                'email'      => 'youssef@example.com',
                 'password'   => Hash::make('password'),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+                ],
+                [
+               
+                'name'       => 'khadija',
+                'email'      => 'khadija@example.com',
+                'password'   => Hash::make('password'),
+                'created_at' => now(),
+                'updated_at' => now(),
+                ],
+                [
+               
+                'name'       => 'amal',
+                'email'      => 'amal@example.com',
+                'password'   => Hash::make('password'),
+                'created_at' => now(),
+                'updated_at' => now(),
+                ],
+                [
+               
+               "name"      =>   'hanane',
+                'email'      => 'hanane@example.com',
+                'password'   => Hash::make('password'),
+                'created_at' => now(),
+                'updated_at' => now(),
+                ],
+                [
+               
+                'name'       => 'ali',
+                'email'      => 'ali@example.com',
+                'password'   => Hash::make('password'),
+                'created_at' => now(),
+                'updated_at' => now(),
+                ]
         ]);
     }
 }

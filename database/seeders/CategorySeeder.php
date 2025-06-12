@@ -7,12 +7,16 @@ use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
         $categories = [
-            ['name' => 'Furniture'],
             ['name' => 'Office'],
             ['name' => 'Smartphones'],
+            ['name' => 'Electronics'],
+            ['name' => 'Furniture'],
         ];
 
         foreach ($categories as $category) {
