@@ -15,44 +15,62 @@ class OrderSeeder extends Seeder
         DB::table('orders')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // Récupère tous les IDs utilisateurs et produits existants
-        $userIds = DB::table('users')->pluck('id')->toArray();
+        $userIds    = DB::table('users')->pluck('id')->toArray();
         $productIds = DB::table('products')->pluck('id')->toArray();
 
-        $orders = [];
-        $orderProducts = [];
-        $orderId = 1;
+        if (count($userIds) === 0 || count($productIds) < 2) {
+            return; // pas assez de données
+        }
 
-        // Pour chaque mois de l'année
-        for ($month = 1; $month <= 12; $month++) {
-            foreach ($userIds as $userId) {
-                // Sélectionne 2 produits différents à chaque commande
-                $products = collect($productIds)->random(2)->all();
-                $total = 0;
-                $orderProductRows = [];
-                foreach ($products as $pid) {
-                    $quantity = rand(1, 3);
-                    $price = rand(100, 1000);
-                    $total += $price * $quantity;
-                    $orderProductRows[] = [
-                        'order_id' => $orderId,
-                        'product_id' => $pid,
-                        'quantity' => $quantity,
-                        'price' => $price,
-                    ];
-                }
-                $orders[] = [
-                    'id' => $orderId,
-                    'user_id' => $userId,
-                    'total_price' => $total,
-                    'status' => ['pending', 'completed', 'shipped'][array_rand(['pending', 'completed', 'shipped'])],
-                    'shipping_address' => 'Address for user ' . $userId,
-                    'created_at' => Carbon::create(2025, $month, rand(1, 28), rand(8, 18), rand(0, 59), 0),
-                    'updated_at' => Carbon::create(2025, $month, rand(1, 28), rand(8, 18), rand(0, 59), 0),
+        $orders        = [];
+        $orderProducts = [];
+
+        // choisir 6 mois distincts parmi les 12
+        $months = collect(range(1, 12))->shuffle()->take(6)->values()->all();
+
+        foreach ($months as $index => $month) {
+            $orderId  = $index + 1;
+            $userId   = collect($userIds)->random();
+            $products = collect($productIds)->random(2)->all();
+            $total    = 0;
+            $rows     = [];
+
+            foreach ($products as $pid) {
+                $quantity = rand(1, 3);
+                $price    = rand(100, 1000);
+                $total   += $price * $quantity;
+
+                $rows[] = [
+                    'order_id'   => $orderId,
+                    'product_id' => $pid,
+                    'quantity'   => $quantity,
+                    'price'      => $price,
                 ];
-                $orderProducts = array_merge($orderProducts, $orderProductRows);
-                $orderId++;
             }
+
+            // jour aléatoire 1–28 pour éviter fin de mois
+            $day       = rand(1, 28);
+            $createdAt = Carbon::create(
+                Carbon::now()->year,
+                $month,
+                $day,
+                rand(0, 23),
+                rand(0, 59),
+                rand(0, 59)
+            );
+            $updatedAt = (clone $createdAt)->addDays(rand(0, 5));
+
+            $orders[] = [
+                'id'               => $orderId,
+                'user_id'          => $userId,
+                'total_price'      => $total,
+                'status'           => ['pending', 'completed', 'shipped'][rand(0, 2)],
+                'shipping_address' => 'Testing address for user ' . $userId,
+                'created_at'       => $createdAt,
+                'updated_at'       => $updatedAt,
+            ];
+
+            $orderProducts = array_merge($orderProducts, $rows);
         }
 
         DB::table('orders')->insert($orders);

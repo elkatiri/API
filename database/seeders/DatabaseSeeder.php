@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run()
 {
     $this->call([
-        UserSeeder::class,     // so users 1,2,3 exist
+        UserSeeder::class, 
+        CategorySeeder::class,    
         ProductSeeder::class,  // so products 5–17 exist
         OrderSeeder::class,    // now you can safely attach products
     ]);
